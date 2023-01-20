@@ -6,7 +6,7 @@ import LanguageFilter from '../components/Nav/LanguageFilter';
 
 export function App() {
   const { globalState, globalDispatch } = useContext(GlobalContext);
-  const { repos, selectedLanguage } = globalState;
+  const { repos, selectedLanguage, fetchFailed } = globalState;
 
   // Filter repos based on selected language;
   function filterRepos(repo: any) {
@@ -25,6 +25,10 @@ export function App() {
       type: 'TOGGLE_REPO',
       payload: { id, value: markdownData },
     });
+  };
+
+  const handleFetchRetryBtn = () => {
+    window.location.reload();
   };
 
   const displayRepos = repos.flatMap((repo: any, key: string) =>
@@ -78,6 +82,12 @@ export function App() {
       <div className="container">
         <LanguageFilter />
         {displayRepos}
+        {fetchFailed ? (
+          <div className="error-dialog">
+            <p>There was a problem fetching the repositories!</p>
+            <button onClick={handleFetchRetryBtn}>Try Again</button>
+          </div>
+        ) : null}
       </div>
     </main>
   );

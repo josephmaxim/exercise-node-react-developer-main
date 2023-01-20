@@ -10,12 +10,14 @@ interface State {
   repos: [];
   availableLanguages: [];
   selectedLanguage: string;
+  fetchFailed: boolean;
 }
 
 const initialState: State = {
   repos: [],
   availableLanguages: [],
   selectedLanguage: '',
+  fetchFailed: false,
 };
 export const GlobalContext = createContext<any>('');
 
@@ -57,6 +59,16 @@ export default function GlobalProvider(props: any) {
   useEffect(() => {
     async function initApp() {
       let repos = await getRepositories();
+
+      if (!repos) {
+        globalDispatch({
+          type: 'INIT',
+          payload: {
+            fetchFailed: true,
+          },
+        });
+        return;
+      }
 
       // (B) 3. Displayed repositories in reverse chronological order by creation date
       repos = repos.sort(
