@@ -45,6 +45,9 @@ repos.get('/', async (_: Request, res: Response) => {
       data = await getLocalData();
     }
 
+    // Filter through data only retuning if fork has a boolean value of false;
+    data = data.filter((repository: any) => !repository.fork);
+
     return res.json(data);
   } catch (err: any) {
     const error: AppError = new AppError(err.response.data.message, 500);
