@@ -1,0 +1,35 @@
+.app {
+  @include small {
+    .repos {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid rgb(232, 232, 232);
+      border-radius: 5px;
+      background: #FFF;
+      margin-bottom: 15px;
+      font-size: 16px;
+      text-align: left;
+      cursor: pointer;
+      @include box-shadow;
+
+      & > h2 {
+        margin: 0;
+        font-size: 18px;
+        color: #34495e;
+      }
+
+      & > ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        li {
+          font-size: 15px;
+        }
+      }
+
+      &:hover {
+        background: rgb(251, 251, 251);
+      }
+    }
+  }
+}

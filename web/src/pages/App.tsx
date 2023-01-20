@@ -30,17 +30,18 @@ export function App() {
   const displayRepos = repos.flatMap((repo: any, key: string) =>
     filterRepos(repo) ? (
       <Fragment key={key}>
-        <ul>
-          <li>
-            Name:{' '}
-            <button onClick={() => handleExpandBtn(repo)} value={repo.id}>
-              {repo.name}
-            </button>
-          </li>
-          <li>Description: {repo.description}</li>
-          <li>Language: {repo.language}</li>
-          <li>Forks Count: {repo.forks_count}</li>
-        </ul>
+        <button
+          className="repos"
+          onClick={() => handleExpandBtn(repo)}
+          value={repo.id}
+        >
+          <h2>{repo.name}</h2>
+          <ul>
+            <li>Description: {repo.description}</li>
+            <li>Language: {repo.language}</li>
+            <li>Forks Count: {repo.forks_count}</li>
+          </ul>
+        </button>
         {repo.isExpanded ? (
           <div>
             <ul>
@@ -65,7 +66,7 @@ export function App() {
   );
 
   return (
-    <main>
+    <main className="app">
       <div className="container">
         <LanguageFilter />
         {displayRepos}
