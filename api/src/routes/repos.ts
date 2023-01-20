@@ -1,8 +1,7 @@
 import { Router, Request, Response } from 'express';
-import {promises as fs} from 'fs';
+import { promises as fs } from 'fs';
 import path from 'path';
 import { AppError } from '../models/AppError';
-import { Repo } from '../models/Repo';
 import axios from 'axios';
 
 export const repos = Router();
@@ -14,9 +13,9 @@ repos.get('/', async (_: Request, res: Response) => {
 
   // TODO: See README.md Task (A). Return repo data here. You’ve got this!
 
-  // (A) 2. I wasn't sure if im suppose to join this two data source so I decided to
-  // add a query flag that accepts a string value of: local
-  // if source query isn't present just fetch github data
+  // (A) 2. I wasn't sure if im suppose to join this two data source
+  // so I decided to add a query flag "source" that accepts a string value.
+  // If source query isn't present just fetch github data.
 
   const {
     query: { source },
