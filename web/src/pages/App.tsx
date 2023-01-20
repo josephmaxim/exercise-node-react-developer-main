@@ -1,5 +1,7 @@
 import { useContext, Fragment } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { GlobalContext } from '../context/GlobalContext';
+import { getMarkDownData } from '../controller/repos';
 import LanguageFilter from '../components/Nav/LanguageFilter';
 
 export function App() {
@@ -13,9 +15,16 @@ export function App() {
     return selectedLanguage === '' ? true : match;
   }
 
-  const handleExpandBtn = (e: any) => {
-    const { value } = e.target;
-    globalDispatch({ type: 'TOGGLE_REPO', payload: { id: value } });
+  const handleExpandBtn = async (repo: any) => {
+    const { id, full_name } = repo;
+
+    // check if theres a README.md associated with the repo
+    const markdownData: string = await getMarkDownData(full_name);
+
+    globalDispatch({
+      type: 'TOGGLE_REPO',
+      payload: { id, value: markdownData },
+    });
   };
 
   const displayRepos = repos.flatMap((repo: any, key: string) =>
@@ -24,7 +33,7 @@ export function App() {
         <ul>
           <li>
             Name:{' '}
-            <button onClick={handleExpandBtn} value={repo.id}>
+            <button onClick={() => handleExpandBtn(repo)} value={repo.id}>
               {repo.name}
             </button>
           </li>
@@ -41,7 +50,11 @@ export function App() {
               </li>
               <li>Author: {repo.owner.login}</li>
               {/* No message prop in the array objects... */}
-              <li>Message: </li>
+              {repo.markdown !== '' ? (
+                <ReactMarkdown children={repo.markdown} />
+              ) : (
+                <>No markdown available for this repo.</>
+              )}
             </ul>
           </div>
         ) : null}

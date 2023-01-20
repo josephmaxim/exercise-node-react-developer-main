@@ -40,7 +40,7 @@ const reducer = (state: State, action: Actions) => {
         ...state,
         repos: state.repos.map((repo: any) => {
           if (repo.id === id) {
-            return { ...repo, isExpanded: !repo.isExpanded };
+            return { ...repo, isExpanded: !repo.isExpanded, markdown: value };
           }
           return { ...repo, isExpanded: false };
         }),
@@ -78,7 +78,7 @@ export default function GlobalProvider(props: any) {
 
       // Add isExpanded flag for each repository
       repos = repos.map((repo: any) => {
-        return { ...repo, isExpanded: false };
+        return { ...repo, isExpanded: false, markdown: '' };
       });
 
       globalDispatch({
