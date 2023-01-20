@@ -8,10 +8,12 @@ interface Actions {
 
 interface State {
   repos: [];
+  availableLanguages: [];
 }
 
 const initialState: State = {
   repos: [],
+  availableLanguages: [],
 };
 export const GlobalContext = createContext<any>('');
 
@@ -38,16 +40,29 @@ export default function GlobalProvider(props: any) {
     async function initApp() {
       let repos = await getRepositories();
 
-      // (B) Displayed repositories in reverse chronological order by creation date
+      // (B) 3. Displayed repositories in reverse chronological order by creation date
       repos = repos.sort(
         (a: any, b: any) =>
           new Date(b.created_at).valueOf() - new Date(a.created_at).valueOf()
+      );
+
+      // Get all available language type
+      const availableLanguages = repos.reduce(
+        (languages: string[], repo: any) => {
+          const { language } = repo;
+          if (!languages.includes(language)) {
+            languages.push(language);
+          }
+          return languages;
+        },
+        []
       );
 
       globalDispatch({
         type: 'INIT',
         payload: {
           repos,
+          availableLanguages,
         },
       });
     }

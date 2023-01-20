@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
+import LanguageFilter from '../components/Nav/LanguageFilter';
 
 export function App() {
   const { globalState } = useContext(GlobalContext);
@@ -18,5 +19,10 @@ export function App() {
     );
   });
 
-  return <main>{displayRepos}</main>;
+  return (
+    <main>
+      <LanguageFilter />
+      {displayRepos}
+    </main>
+  );
 }
