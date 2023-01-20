@@ -7,6 +7,7 @@ export function App() {
 
   const displayRepos = repos.map((repo: any, key: string) => {
     const { name, description, language, forks_count } = repo;
+
     return (
       <ul key={key}>
         <li>Name: {name}</li>

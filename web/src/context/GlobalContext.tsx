@@ -36,7 +36,13 @@ export default function GlobalProvider(props: any) {
 
   useEffect(() => {
     async function initApp() {
-      const repos = await getRepositories();
+      let repos = await getRepositories();
+
+      // (B) Displayed repositories in reverse chronological order by creation date
+      repos = repos.sort(
+        (a: any, b: any) =>
+          new Date(b.created_at).valueOf() - new Date(a.created_at).valueOf()
+      );
 
       globalDispatch({
         type: 'INIT',
