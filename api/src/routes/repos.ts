@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { AppError } from '../models/AppError';
+import { Repo } from '../models/Repo';
 import axios from 'axios';
 
 export const repos = Router();
@@ -12,14 +13,6 @@ repos.get('/', async (_: Request, res: Response) => {
   res.status(200);
 
   // TODO: See README.md Task (A). Return repo data here. You’ve got this!
-
-  // (A) 2. I wasn't sure if im suppose to join this two data source
-  // so I decided to add a query flag "source" that accepts a string value.
-  // If source query isn't present just fetch github data.
-
-  const {
-    query: { source },
-  } = _;
 
   const getLocalData = async () => {
     let fileData: string | any[] = '';
@@ -34,20 +27,18 @@ repos.get('/', async (_: Request, res: Response) => {
     return data;
   };
 
-  let data: any = {};
-
-  // determines the data source to use;
+  // Aggregate data from both sources.
   try {
-    if (source === 'github') {
-      data = await getGithubData();
-    } else {
-      data = await getLocalData();
-    }
+    const localData: [] = await getLocalData();
+    const githubData: [] = await getGithubData();
+    let aggregatedData: Repo[] = localData.concat(githubData);
 
     // Filter through data only retuning if fork has a boolean value of false;
-    data = data.filter((repository: any) => !repository.fork);
+    aggregatedData = aggregatedData.filter(
+      (repository: any) => !repository.fork
+    );
 
-    return res.json(data);
+    return res.json(aggregatedData);
   } catch (err: any) {
     const error: AppError = new AppError(err.response.data.message, 500);
     return res.status(error.status).json(err.response.data);
