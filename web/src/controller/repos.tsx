@@ -10,3 +10,14 @@ export const getRepositories = async () => {
     alert(error);
   }
 };
+
+export const getMarkDownData = async (repoName: string) => {
+  try {
+    const { data } = await axios.get(
+      `https://raw.githubusercontent.com/${repoName}/master/README.md`
+    );
+    return data;
+  } catch (error) {
+    return '';
+  }
+};
