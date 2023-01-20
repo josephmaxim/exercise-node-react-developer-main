@@ -31,5 +31,36 @@
         background: rgb(251, 251, 251);
       }
     }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #FFF;
+
+      button {
+        display: inline;
+        margin: 20px 0px;
+        background: #fff;
+        border: 1px solid rgb(240, 240, 240);
+        font-size: 16px;
+        padding: 10px 10px;
+        font-weight: 600;
+      }
+
+      hr {
+        border: 1px solid rgb(243, 243, 243);
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      .markdown {
+        padding: 15px 0px;
+      }
+    }
   }
 }

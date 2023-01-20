@@ -43,20 +43,28 @@ export function App() {
           </ul>
         </button>
         {repo.isExpanded ? (
-          <div>
-            <ul>
-              <li>
-                Recent commit date:{' '}
-                {new Date(repo.updated_at).toLocaleDateString()}
-              </li>
-              <li>Author: {repo.owner.login}</li>
-              {/* No message prop in the array objects... */}
-              {repo.markdown !== '' ? (
-                <ReactMarkdown children={repo.markdown} />
-              ) : (
-                <>No markdown available for this repo.</>
-              )}
-            </ul>
+          <div className="modal">
+            <div className="container">
+              <button onClick={() => handleExpandBtn(repo)} value={repo.id}>
+                &#8592; Return
+              </button>
+              <ul>
+                <li>Author: {repo.owner.login}</li>
+                <li>
+                  Recent commit:{' '}
+                  {new Date(repo.updated_at).toLocaleDateString()}
+                </li>
+                {/* No message prop in the array objects... */}
+              </ul>
+              <hr />
+              <div className="markdown">
+                {repo.markdown !== '' ? (
+                  <ReactMarkdown children={repo.markdown} />
+                ) : (
+                  <>No markdown available for this repo.</>
+                )}
+              </div>
+            </div>
           </div>
         ) : null}
       </Fragment>
