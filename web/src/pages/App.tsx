@@ -1,9 +1,9 @@
-import { useContext } from 'react';
+import { useContext, Fragment } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
 import LanguageFilter from '../components/Nav/LanguageFilter';
 
 export function App() {
-  const { globalState } = useContext(GlobalContext);
+  const { globalState, globalDispatch } = useContext(GlobalContext);
   const { repos, selectedLanguage } = globalState;
 
   // Filter repos based on selected language;
@@ -13,14 +13,26 @@ export function App() {
     return selectedLanguage === '' ? true : match;
   }
 
+  const handleExpandBtn = (e: any) => {
+    const { value } = e.target;
+    globalDispatch({ type: 'TOGGLE_REPO', payload: { id: value } });
+  };
+
   const displayRepos = repos.flatMap((repo: any, key: string) =>
     filterRepos(repo) ? (
-      <ul key={key}>
-        <li>Name: {repo.name}</li>
-        <li>Description: {repo.description}</li>
-        <li>Language: {repo.language}</li>
-        <li>Forks Count: {repo.forks_count}</li>
-      </ul>
+      <Fragment key={key}>
+        <ul>
+          <li>
+            Name:{' '}
+            <button onClick={handleExpandBtn} value={repo.id}>
+              {repo.name}
+            </button>
+          </li>
+          <li>Description: {repo.description}</li>
+          <li>Language: {repo.language}</li>
+          <li>Forks Count: {repo.forks_count}</li>
+        </ul>
+      </Fragment>
     ) : (
       []
     )

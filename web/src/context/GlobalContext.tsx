@@ -22,7 +22,7 @@ export const GlobalContext = createContext<any>('');
 const reducer = (state: State, action: Actions) => {
   const value = action.payload?.value;
   // const param = action.payload?.param;
-  // let id = action.payload?.id;
+  const id = parseInt(action.payload?.id, 10);
 
   switch (action.type) {
     case 'INIT':
@@ -34,6 +34,16 @@ const reducer = (state: State, action: Actions) => {
       return {
         ...state,
         selectedLanguage: value,
+      };
+    case 'TOGGLE_REPO':
+      return {
+        ...state,
+        repos: state.repos.map((repo: any) => {
+          if (repo.id === id) {
+            return { ...repo, isExpanded: !repo.isExpanded };
+          }
+          return { ...repo, isExpanded: false };
+        }),
       };
     default:
       return state;
@@ -65,6 +75,11 @@ export default function GlobalProvider(props: any) {
         },
         []
       );
+
+      // Add isExpanded flag for each repository
+      repos = repos.map((repo: any) => {
+        return { ...repo, isExpanded: false };
+      });
 
       globalDispatch({
         type: 'INIT',
