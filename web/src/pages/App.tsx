@@ -66,8 +66,10 @@ export function App() {
 
   return (
     <main>
-      <LanguageFilter />
-      {displayRepos}
+      <div className="container">
+        <LanguageFilter />
+        {displayRepos}
+      </div>
     </main>
   );
 }

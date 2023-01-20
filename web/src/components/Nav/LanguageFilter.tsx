@@ -17,9 +17,7 @@ export default function LanguageFilter() {
           key={key}
           onClick={handleFilterBtn}
           value={selectedLanguage === language ? '' : language}
-          style={{
-            background: selectedLanguage === language ? 'blue' : '',
-          }}
+          className={selectedLanguage === language ? 'active' : ''}
         >
           {language}
         </button>
@@ -27,5 +25,5 @@ export default function LanguageFilter() {
     }
   );
 
-  return <div>{displayLangBtn}</div>;
+  return <div className="language-filter">{displayLangBtn}</div>;
 }

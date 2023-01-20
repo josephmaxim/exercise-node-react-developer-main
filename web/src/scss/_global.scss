@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #F7F9FB;
+  color: #222;
+}
+
+.container {
+  overflow: auto;
+  @include small(){
+    padding: 0px 15px;
+  }
+  @include medium(){
+    width: 600px;
+    padding: 0px 0px;
+    margin: 0 auto;
+  }
+  @include large() {
+    width: 730px;
+    margin: 0 auto;
+    padding: 0px 0px;
+  }
+}
