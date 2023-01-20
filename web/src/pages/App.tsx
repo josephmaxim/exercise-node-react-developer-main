@@ -32,6 +32,19 @@ export function App() {
           <li>Language: {repo.language}</li>
           <li>Forks Count: {repo.forks_count}</li>
         </ul>
+        {repo.isExpanded ? (
+          <div>
+            <ul>
+              <li>
+                Recent commit date:{' '}
+                {new Date(repo.updated_at).toLocaleDateString()}
+              </li>
+              <li>Author: {repo.owner.login}</li>
+              {/* No message prop in the array objects... */}
+              <li>Message: </li>
+            </ul>
+          </div>
+        ) : null}
       </Fragment>
     ) : (
       []
