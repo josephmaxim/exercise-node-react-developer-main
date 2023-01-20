@@ -9,16 +9,18 @@ interface Actions {
 interface State {
   repos: [];
   availableLanguages: [];
+  selectedLanguage: string;
 }
 
 const initialState: State = {
   repos: [],
   availableLanguages: [],
+  selectedLanguage: '',
 };
 export const GlobalContext = createContext<any>('');
 
 const reducer = (state: State, action: Actions) => {
-  // const value = action.payload?.value;
+  const value = action.payload?.value;
   // const param = action.payload?.param;
   // let id = action.payload?.id;
 
@@ -28,6 +30,11 @@ const reducer = (state: State, action: Actions) => {
         ...state,
         ...action.payload,
       };
+    case 'SELECT_LANGUAGE':
+      return {
+        ...state,
+        selectedLanguage: value,
+      };
     default:
       return state;
   }
@@ -36,6 +43,7 @@ const reducer = (state: State, action: Actions) => {
 export default function GlobalProvider(props: any) {
   const [globalState, globalDispatch] = useReducer(reducer, initialState);
 
+  // Initial App Load
   useEffect(() => {
     async function initApp() {
       let repos = await getRepositories();
