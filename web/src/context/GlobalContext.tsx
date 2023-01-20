@@ -1,31 +1,52 @@
-import { createContext, useReducer } from 'react';
+import { createContext, useReducer, useEffect } from 'react';
+import { getRepositories } from '../controller/repos';
 
 interface Actions {
   type: string;
-  payload: {
-    value: string | number | any;
-    param: string;
-    id: number;
-  };
+  payload: any;
 }
 
-type State = any;
+interface State {
+  repos: [];
+}
 
+const initialState: State = {
+  repos: [],
+};
 export const GlobalContext = createContext<any>('');
 
-const initialState: any = {};
+const reducer = (state: State, action: Actions) => {
+  // const value = action.payload?.value;
+  // const param = action.payload?.param;
+  // let id = action.payload?.id;
 
-function reducer(state: State, action: Actions) {
   switch (action.type) {
     case 'INIT':
-      return action.payload;
+      return {
+        ...state,
+        ...action.payload,
+      };
     default:
       return state;
   }
-}
+};
 
 export default function GlobalProvider(props: any) {
   const [globalState, globalDispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    async function initApp() {
+      const repos = await getRepositories();
+
+      globalDispatch({
+        type: 'INIT',
+        payload: {
+          repos,
+        },
+      });
+    }
+    initApp();
+  }, []);
 
   return (
     <GlobalContext.Provider value={{ globalState, globalDispatch }}>
