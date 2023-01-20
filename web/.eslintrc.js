@@ -78,11 +78,11 @@ const newConfig = Object.assign({}, config, {
             'error',
             {
               selector: ['variableLike', 'memberLike'],
-              format: ['camelCase'],
+              format: ['camelCase', 'PascalCase'],
             },
             {
               selector: ['property', 'variable'],
-              format: ['camelCase', 'UPPER_CASE'],
+              format: ['camelCase', 'UPPER_CASE', 'PascalCase', 'snake_case'],
             },
             {
               selector: ['function', 'parameter'],
